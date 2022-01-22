@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared/shared.module';
-import { BoardPageComponent } from './pages/board-page/board-page.component';
 import { BoardRoutingModule } from './board-routing.module';
+import { BoardComponent } from './components';
+import { BoardPageComponent } from './pages';
 
 @NgModule({
-  declarations: [BoardPageComponent],
+  declarations: [BoardPageComponent, BoardComponent],
   imports: [SharedModule, BoardRoutingModule],
 })
 export class BoardModule {}
