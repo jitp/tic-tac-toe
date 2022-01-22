@@ -1,0 +1,10 @@
+.c-header {
+  border-bottom: 0.5rem solid $white;
+  margin-bottom: 3rem;
+
+  &__title {
+    font-size: 3rem;
+    text-align: center;
+    margin: 0.4375em 0 1em;
+  }
+}
