@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+// SETTINGS
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+// TOOLS
+@import "~bootstrap/scss/mixins";
+
+// GENERIC
+@import "~bootstrap/scss/reboot";
+
+// ELEMENTS
+
+// OBJECTS
+@import "~bootstrap/scss/grid";
+
+// COMPONENTS
+
+// UTILITIES
+@import "~bootstrap/scss/utilities";
