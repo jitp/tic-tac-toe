@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
 } from '@angular/core';
 import { Square } from '@modules/board/models';
 
@@ -16,9 +18,16 @@ export class BoardComponent implements OnInit {
   @Input()
   squares: Square[][] = [];
 
+  @Output()
+  square = new EventEmitter<Square>();
+
   constructor() {}
 
   ngOnInit(): void {}
+
+  onSquareClick($event: Square) {
+    this.square.emit($event);
+  }
 
   isTopSquare(square: Square): boolean {
     return square.position[0] === 0;

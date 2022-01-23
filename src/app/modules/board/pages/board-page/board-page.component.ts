@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Square } from '@modules/board/models';
 import { BoardPageStore } from './board-page.store';
 
 @Component({
@@ -15,5 +16,9 @@ export class BoardPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.generateSquares();
+  }
+
+  onSquare($event: Square) {
+    console.log($event);
   }
 }

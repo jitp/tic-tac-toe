@@ -1,1 +1,1 @@
-<app-board [squares]="(squares$ | async)!"></app-board>
+<app-board [squares]="(squares$ | async)!" (square)="onSquare($event)"></app-board>
