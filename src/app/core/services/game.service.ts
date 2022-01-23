@@ -24,7 +24,7 @@ export class GameService {
   }
 
   hasExhausted(turn: number, boardSize: number): boolean {
-    return turn > Math.pow(boardSize, 2);
+    return turn > Math.pow(boardSize, 2) - 1;
   }
 
   resolveWinnerForPlay(square: Square, squares: Square[][]): string {
