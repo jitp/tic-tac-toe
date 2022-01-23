@@ -12,6 +12,7 @@ const defaultState = (config: AppConfig): IBoardPageState => ({
   squares: [],
   currentPlayer: config.startingPlayer,
   turn: 0,
+  winner: '',
 });
 
 @Injectable()
@@ -32,6 +33,14 @@ export class BoardPageStore extends ComponentStore<IBoardPageState> {
     this.gameService.isGameOver(state.turn, state.squares.length)
   );
 
+  winner$ = this.select(({ winner }) => winner);
+
+  isGameStopped$ = this.select(
+    this.isGameOver$,
+    this.winner$,
+    (isGameOver, winner) => isGameOver || !!winner
+  );
+
   // UPDATERS
 
   setSquares = this.updater((state: IBoardPageState, squares: Square[][]) => ({
@@ -45,6 +54,11 @@ export class BoardPageStore extends ComponentStore<IBoardPageState> {
       currentPlayer,
     })
   );
+
+  setWinner = this.updater((state: IBoardPageState, winner: string) => ({
+    ...state,
+    winner,
+  }));
 
   markSquare = this.updater((state: IBoardPageState, square: Square) => ({
     ...state,
@@ -81,14 +95,25 @@ export class BoardPageStore extends ComponentStore<IBoardPageState> {
 
   playSquare = this.effect((trigger$: Observable<Square>) => {
     return trigger$.pipe(
-      withLatestFrom(this.isGameOver$),
-      filter(([, isGameOver]) => !isGameOver),
+      withLatestFrom(this.isGameStopped$),
+      filter(([, isGameStopped]) => !isGameStopped),
       tap({
-        next: ([square, isGameOver]) => {
+        next: ([square, isGameStopped]) => {
           this.markSquare(square);
           this.changeCurrentPlayer();
           this.incrementTurn();
         },
+      })
+    );
+  });
+
+  checkPlayForWinner = this.effect((trigger$: Observable<Square>) => {
+    return trigger$.pipe(
+      withLatestFrom(this.squares$, this.isGameStopped$),
+      filter(([, , isGameStopped]) => !isGameStopped),
+      tap(([square, squares, isGameStopped]) => {
+        let winner = this.gameService.resolveWinnerForPlay(square, squares);
+        this.setWinner(winner);
       })
     );
   });

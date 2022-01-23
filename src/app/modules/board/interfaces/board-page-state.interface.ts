@@ -4,4 +4,5 @@ export interface IBoardPageState {
   squares: Square[][];
   currentPlayer: string;
   turn: number;
+  winner: string;
 }
