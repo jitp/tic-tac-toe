@@ -9,7 +9,11 @@ import { BoardPageStore } from './board-page.store';
   providers: [BoardPageStore],
 })
 export class BoardPageComponent implements OnInit {
+  squares$ = this.store.squares$;
+
   constructor(protected store: BoardPageStore) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.generateSquares();
+  }
 }

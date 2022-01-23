@@ -1,3 +1,5 @@
+import { Square } from '../models';
+
 export interface IBoardPageState {
-    boardSize: number
+  squares: Square[][];
 }
