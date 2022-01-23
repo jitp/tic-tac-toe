@@ -41,6 +41,12 @@ export class BoardPageStore extends ComponentStore<IBoardPageState> {
     (noMoreTurns, winner) => noMoreTurns || !!winner
   );
 
+  isTied$ = this.select(
+    this.noMoreTurns$,
+    this.winner$,
+    (noMoreTurns, winner) => noMoreTurns && !!winner === false
+  );
+
   // UPDATERS
 
   setSquares = this.updater((state: IBoardPageState, squares: Square[][]) => ({

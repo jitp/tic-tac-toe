@@ -1,10 +1,19 @@
+<div class="text-center">
+  <p *ngIf="!(isGameOver$ | async)">
+    Turn for player: {{ currentPlayer$ | async }}
+  </p>
+  <p *ngIf="winner$ | async as winner">Winner is {{ winner }}!</p>
+  <p *ngIf="isTied$ | async">It is a tie!</p>
+</div>
 
-<app-board
-  [squares]="(squares$ | async)!"
-  (square)="onSquare($event)"
-></app-board>
+<div class="mt-4">
+  <app-board
+    [squares]="(squares$ | async)!"
+    (square)="onSquare($event)"
+  ></app-board>
+</div>
 
-<div class="mt-2 text-right">
+<div class="mt-4 text-center">
   <button
     *ngIf="isGameOver$ | async"
     class="btn btn-primary"

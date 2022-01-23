@@ -12,6 +12,9 @@ import { BoardPageStore } from './board-page.store';
 export class BoardPageComponent implements OnInit {
   squares$ = this.store.squares$;
   isGameOver$ = this.store.isGameOver$;
+  currentPlayer$ = this.store.currentPlayer$;
+  winner$ = this.store.winner$;
+  isTied$ = this.store.isTied$;
 
   constructor(protected store: BoardPageStore) {}
 
