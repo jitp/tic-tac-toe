@@ -11,6 +11,7 @@ import { BoardPageStore } from './board-page.store';
 })
 export class BoardPageComponent implements OnInit {
   squares$ = this.store.squares$;
+  isGameOver$ = this.store.isGameOver$;
 
   constructor(protected store: BoardPageStore) {}
 
@@ -21,5 +22,9 @@ export class BoardPageComponent implements OnInit {
   onSquare($event: Square) {
     this.store.playSquare($event);
     this.store.checkPlayForWinner($event);
+  }
+
+  onRestart() {
+    this.store.restart();
   }
 }

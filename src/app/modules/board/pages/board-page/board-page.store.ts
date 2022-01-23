@@ -29,16 +29,16 @@ export class BoardPageStore extends ComponentStore<IBoardPageState> {
 
   currentPlayer$ = this.select(({ currentPlayer }) => currentPlayer);
 
-  isGameOver$ = this.select((state) =>
-    this.gameService.isGameOver(state.turn, state.squares.length)
+  noMoreTurns$ = this.select((state) =>
+    this.gameService.hasExhausted(state.turn, state.squares.length)
   );
 
   winner$ = this.select(({ winner }) => winner);
 
-  isGameStopped$ = this.select(
-    this.isGameOver$,
+  isGameOver$ = this.select(
+    this.noMoreTurns$,
     this.winner$,
-    (isGameOver, winner) => isGameOver || !!winner
+    (noMoreTurns, winner) => noMoreTurns || !!winner
   );
 
   // UPDATERS
@@ -95,8 +95,8 @@ export class BoardPageStore extends ComponentStore<IBoardPageState> {
 
   playSquare = this.effect((trigger$: Observable<Square>) => {
     return trigger$.pipe(
-      withLatestFrom(this.isGameStopped$),
-      filter(([, isGameStopped]) => !isGameStopped),
+      withLatestFrom(this.isGameOver$),
+      filter(([, isGameOver]) => !isGameOver),
       tap({
         next: ([square, isGameStopped]) => {
           this.markSquare(square);
@@ -109,11 +109,20 @@ export class BoardPageStore extends ComponentStore<IBoardPageState> {
 
   checkPlayForWinner = this.effect((trigger$: Observable<Square>) => {
     return trigger$.pipe(
-      withLatestFrom(this.squares$, this.isGameStopped$),
-      filter(([, , isGameStopped]) => !isGameStopped),
-      tap(([square, squares, isGameStopped]) => {
+      withLatestFrom(this.squares$, this.isGameOver$),
+      filter(([, , isGameOver]) => !isGameOver),
+      tap(([square, squares, isGameOver]) => {
         let winner = this.gameService.resolveWinnerForPlay(square, squares);
         this.setWinner(winner);
+      })
+    );
+  });
+
+  restart = this.effect((trigger$: Observable<void>) => {
+    return trigger$.pipe(
+      tap(() => {
+        this.setState(defaultState(this.appConfig));
+        this.generateSquares();
       })
     );
   });

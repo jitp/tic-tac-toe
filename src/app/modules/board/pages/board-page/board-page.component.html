@@ -1,1 +1,15 @@
-<app-board [squares]="(squares$ | async)!" (square)="onSquare($event)"></app-board>
+
+<app-board
+  [squares]="(squares$ | async)!"
+  (square)="onSquare($event)"
+></app-board>
+
+<div class="mt-2 text-right">
+  <button
+    *ngIf="isGameOver$ | async"
+    class="btn btn-primary"
+    (click)="onRestart()"
+  >
+    Restart
+  </button>
+</div>

@@ -23,7 +23,7 @@ export class GameService {
     return [...squares];
   }
 
-  isGameOver(turn: number, boardSize: number): boolean {
+  hasExhausted(turn: number, boardSize: number): boolean {
     return turn > Math.pow(boardSize, 2);
   }
 
