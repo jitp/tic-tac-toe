@@ -16,4 +16,10 @@ export class GameService {
 
     return matrix;
   }
+
+  markSquare(squares: Square[][], square: Square, player: string): Square[][] {
+    square.value = player;
+
+    return [...squares];
+  }
 }

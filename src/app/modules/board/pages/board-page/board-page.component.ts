@@ -19,6 +19,6 @@ export class BoardPageComponent implements OnInit {
   }
 
   onSquare($event: Square) {
-    console.log($event);
+    this.store.playSquare($event);
   }
 }
