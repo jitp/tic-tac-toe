@@ -6,11 +6,12 @@ import { IBoardPageState } from '@modules/board/interfaces';
 import { Square } from '@modules/board/models';
 import { ComponentStore } from '@ngrx/component-store';
 import { Observable } from 'rxjs';
-import { tap, withLatestFrom } from 'rxjs/operators';
+import { filter, tap, withLatestFrom } from 'rxjs/operators';
 
 const defaultState = (config: AppConfig): IBoardPageState => ({
   squares: [],
   currentPlayer: config.startingPlayer,
+  turn: 0,
 });
 
 @Injectable()
@@ -26,6 +27,10 @@ export class BoardPageStore extends ComponentStore<IBoardPageState> {
   squares$ = this.select(({ squares }) => squares);
 
   currentPlayer$ = this.select(({ currentPlayer }) => currentPlayer);
+
+  isGameOver$ = this.select((state) =>
+    this.gameService.isGameOver(state.turn, state.squares.length)
+  );
 
   // UPDATERS
 
@@ -53,9 +58,13 @@ export class BoardPageStore extends ComponentStore<IBoardPageState> {
   changeCurrentPlayer = this.updater((state) => ({
     ...state,
     currentPlayer: this.appConfig.players.find((p) => {
-      console.log(state.currentPlayer !== p);
       return state.currentPlayer !== p;
     })!,
+  }));
+
+  incrementTurn = this.updater((state) => ({
+    ...state,
+    turn: state.turn + 1,
   }));
 
   // EFFECTS
@@ -72,10 +81,13 @@ export class BoardPageStore extends ComponentStore<IBoardPageState> {
 
   playSquare = this.effect((trigger$: Observable<Square>) => {
     return trigger$.pipe(
+      withLatestFrom(this.isGameOver$),
+      filter(([, isGameOver]) => !isGameOver),
       tap({
-        next: (square) => {
+        next: ([square, isGameOver]) => {
           this.markSquare(square);
           this.changeCurrentPlayer();
+          this.incrementTurn();
         },
       })
     );
