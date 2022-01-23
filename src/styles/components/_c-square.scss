@@ -1,0 +1,28 @@
+.c-square {
+  width: 1.5625em;
+  height: 1.5625em;
+  line-height: 1.5625em;;
+  border: 3px solid $white;
+  font-size: 6rem;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+//   padding: 20px 5px;
+
+  &--top {
+    border-top-color: transparent;
+  }
+
+  &--bottom {
+    border-bottom-color: transparent;
+  }
+
+  &--left {
+    border-left-color: transparent;
+  }
+
+  &--right {
+    border-right-color: transparent;
+  }
+}

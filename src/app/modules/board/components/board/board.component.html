@@ -1,1 +1,12 @@
-<p>board works!</p>
+<div>
+  <div class="c-board__row" *ngFor="let row of squares">
+    <app-square
+      *ngFor="let square of row"
+      [square]="square"
+      [top]="isTopSquare(square)"
+      [bottom]="isBottomSquare(square)"
+      [left]="isLeftSquare(square)"
+      [right]="isRightSquare(square)"
+    ></app-square>
+  </div>
+</div>

@@ -1,3 +1,11 @@
-<div class="c-square">
-  <span>{{ value }}</span>
+<div
+  class="c-square"
+  [ngClass]="{
+    'c-square--top': top,
+    'c-square--bottom': bottom,
+    'c-square--left': left,
+    'c-square--right': right
+  }"
+>
+  <span>{{ square?.value }}</span>
 </div>

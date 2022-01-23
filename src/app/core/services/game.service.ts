@@ -8,7 +8,7 @@ export class GameService {
     for (let i = 0; i < size; i++) {
       let row: Square[] = [];
       for (let j = 0; j < size; j++) {
-        row = [...row, {} as Square];
+        row = [...row, { position: [i, j], value: '' } as Square];
       }
 
       matrix = [...matrix, row];
