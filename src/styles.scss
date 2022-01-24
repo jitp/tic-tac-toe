@@ -1,6 +1,5 @@
 // SETTINGS
 @import "~bootstrap/scss/functions";
-@import "styles/settings/fonts";
 @import "styles/settings/variables";
 @import "~bootstrap/scss/variables";
 
@@ -19,6 +18,7 @@
 @import "styles/components/c-header";
 @import "styles/components/c-board";
 @import "styles/components/c-square";
+@import "~bootstrap/scss/buttons";
 
 // UTILITIES
 @import "~bootstrap/scss/utilities";
