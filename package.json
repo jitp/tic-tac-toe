@@ -5,8 +5,10 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:ci": "ng build --prod --sourceMap=false --base-href /tic-tac-toe/",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:ci": "ng test --browsers ChromeHeadless --watch=false --code-coverage --source-map true"
   },
   "private": true,
   "dependencies": {
