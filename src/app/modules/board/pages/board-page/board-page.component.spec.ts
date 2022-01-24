@@ -52,7 +52,7 @@ describe('BoardPageComponent', () => {
     expect(spectator.query(BoardComponent)?.squares).toEqual(matrix);
   });
 
-  it('plays square and checks for a winner when board emits square event', () => {
+  it('plays square when board emits square event', () => {
     const square: Square = { position: [0, 0], value: '' };
 
     spectator = createComponent({
@@ -60,7 +60,6 @@ describe('BoardPageComponent', () => {
         mockProvider(BoardPageStore, {
           generateSquares: jasmine.createSpy('generateSquares'),
           playSquare: jasmine.createSpy('playSquare'),
-          checkPlayForWinner: jasmine.createSpy('checkPlayForWinner'),
         }),
       ],
     });
@@ -71,7 +70,6 @@ describe('BoardPageComponent', () => {
     spectator.detectChanges();
 
     expect(store.playSquare).toHaveBeenCalledOnceWith(square);
-    expect(store.checkPlayForWinner).toHaveBeenCalledOnceWith(square);
   });
 
   it('renders restart button when game is over', () => {

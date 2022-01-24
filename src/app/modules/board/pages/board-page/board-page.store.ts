@@ -106,6 +106,7 @@ export class BoardPageStore extends ComponentStore<IBoardPageState> {
       tap({
         next: ([square, isGameStopped]) => {
           this.markSquare(square);
+          this.checkPlayForWinner(square);
           this.changeCurrentPlayer();
           this.incrementTurn();
         },

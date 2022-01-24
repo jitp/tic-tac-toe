@@ -26,7 +26,7 @@ describe('BoardPageStore', () => {
     expect(gameService.generateBoardMatrix).toHaveBeenCalledOnceWith(3);
   });
 
-  it('plays the square', () => {
+  it('plays the square and there is no winner', () => {
     const matrix: Square[][] = fakeBoardMatrix(3);
     const markedSquareMatrix: Square[][] = fakeBoardMatrix(3);
     markedSquareMatrix[1][1].value = 'X';
@@ -37,15 +37,50 @@ describe('BoardPageStore', () => {
     gameService.generateBoardMatrix.and.returnValue(matrix);
     gameService.hasExhausted.and.returnValue(false);
     gameService.markSquare.and.returnValue(markedSquareMatrix);
+    gameService.resolveWinnerForPlay.and.returnValue('');
 
     spectator.service.playSquare(matrix[1][1]);
 
     expect(spectator.service.squares$).toBeObservable(
       cold('x', { x: markedSquareMatrix })
     );
+
+    expect(spectator.service.winner$).toBeObservable(cold('x', { x: '' }));
+
     expect(spectator.service.currentPlayer$).toBeObservable(
       cold('x', { x: 'O' })
     );
+
+    expect(spectator.service.select(({ turn }) => turn)).toBeObservable(
+      cold('x', { x: 1 })
+    );
+  });
+
+  it('plays the square and there is a winner', () => {
+    const matrix: Square[][] = fakeBoardMatrix(3);
+    const markedSquareMatrix: Square[][] = fakeBoardMatrix(3);
+    markedSquareMatrix[1][1].value = 'X';
+
+    spectator = createService();
+
+    const gameService = spectator.inject(GameService);
+    gameService.generateBoardMatrix.and.returnValue(matrix);
+    gameService.hasExhausted.and.returnValue(false);
+    gameService.markSquare.and.returnValue(markedSquareMatrix);
+    gameService.resolveWinnerForPlay.and.returnValue('X');
+
+    spectator.service.playSquare(matrix[1][1]);
+
+    expect(spectator.service.squares$).toBeObservable(
+      cold('x', { x: markedSquareMatrix })
+    );
+
+    expect(spectator.service.winner$).toBeObservable(cold('x', { x: 'X' }));
+
+    expect(spectator.service.currentPlayer$).toBeObservable(
+      cold('x', { x: 'O' })
+    );
+
     expect(spectator.service.select(({ turn }) => turn)).toBeObservable(
       cold('x', { x: 1 })
     );
@@ -84,6 +119,21 @@ describe('BoardPageStore', () => {
     spectator.service.checkPlayForWinner(matrix[1][1]);
 
     expect(spectator.service.winner$).toBeObservable(cold('x', { x: 'O' }));
+  });
+
+  it('does not check play for winner when game is over', () => {
+    const matrix: Square[][] = fakeBoardMatrix(3);
+
+    spectator = createService();
+
+    const gameService = spectator.inject(GameService);
+    gameService.generateBoardMatrix.and.returnValue(matrix);
+    gameService.hasExhausted.and.returnValue(true);
+
+    spectator.service.generateSquares();
+    spectator.service.checkPlayForWinner(matrix[1][1]);
+
+    expect(spectator.service.winner$).toBeObservable(cold('x', { x: '' }));
   });
 
   it('restarts', () => {

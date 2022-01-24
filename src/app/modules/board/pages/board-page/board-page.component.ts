@@ -24,7 +24,6 @@ export class BoardPageComponent implements OnInit {
 
   onSquare($event: Square) {
     this.store.playSquare($event);
-    this.store.checkPlayForWinner($event);
   }
 
   onRestart() {
