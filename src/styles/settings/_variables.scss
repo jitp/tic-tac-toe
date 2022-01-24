@@ -1,6 +1,7 @@
 // Color system
 $white: #fff !default;
 $black: #000 !default;
+$marino: #4262bb !default;
 
 // Typography
 $font-family-sans-serif: "Press Start 2P", sans-serif !default;
@@ -8,5 +9,5 @@ $font-family-sans-serif: "Press Start 2P", sans-serif !default;
 // Body
 //
 // Settings for the `<body>` element.
-$body-bg: $black !default;
+$body-bg: $marino !default;
 $body-color: $white !default;
