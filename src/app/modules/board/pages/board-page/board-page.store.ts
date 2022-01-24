@@ -102,7 +102,7 @@ export class BoardPageStore extends ComponentStore<IBoardPageState> {
   playSquare = this.effect((trigger$: Observable<Square>) => {
     return trigger$.pipe(
       withLatestFrom(this.isGameOver$),
-      filter(([, isGameOver]) => !isGameOver),
+      filter(([square, isGameOver]) => square.value === '' && !isGameOver),
       tap({
         next: ([square, isGameStopped]) => {
           this.markSquare(square);

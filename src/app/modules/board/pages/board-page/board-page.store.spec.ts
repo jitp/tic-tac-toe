@@ -107,6 +107,29 @@ describe('BoardPageStore', () => {
     );
   });
 
+  it('does not play the square when square is not empty', () => {
+    const matrix: Square[][] = fakeBoardMatrix(3);
+    const square: Square = matrix[1][1];
+    square.value = "O";
+
+    spectator = createService();
+
+    const gameService = spectator.inject(GameService);
+    gameService.generateBoardMatrix.and.returnValue(matrix);
+    gameService.hasExhausted.and.returnValue(false);
+
+    spectator.service.generateSquares();
+    spectator.service.playSquare(matrix[1][1]);
+
+    expect(spectator.service.squares$).toBeObservable(cold('x', { x: matrix }));
+    expect(spectator.service.currentPlayer$).toBeObservable(
+      cold('x', { x: 'X' })
+    );
+    expect(spectator.service.select(({ turn }) => turn)).toBeObservable(
+      cold('x', { x: 0 })
+    );
+  });
+
   it('checks play for winner', () => {
     const matrix: Square[][] = fakeBoardMatrix(3);
 
