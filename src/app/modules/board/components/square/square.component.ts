@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit,
 } from '@angular/core';
 import { Square } from '@modules/board/models';
 
@@ -12,7 +11,7 @@ import { Square } from '@modules/board/models';
   templateUrl: './square.component.html',
   styleUrls: ['./square.component.scss'],
 })
-export class SquareComponent implements OnInit {
+export class SquareComponent {
   @Input()
   square: Square | undefined;
 
@@ -27,8 +26,4 @@ export class SquareComponent implements OnInit {
 
   @Input()
   right: boolean = false;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

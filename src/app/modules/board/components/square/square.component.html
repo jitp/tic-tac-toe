@@ -1,5 +1,6 @@
 <div
   class="c-square"
+  data-testid="square"
   [ngClass]="{
     'c-square--top': top,
     'c-square--bottom': bottom,
@@ -7,5 +8,5 @@
     'c-square--right': right
   }"
 >
-  <span>{{ square?.value }}</span>
+  <span data-testid="player">{{ square?.value }}</span>
 </div>

@@ -1,9 +1,9 @@
 <div class="text-center">
-  <p *ngIf="!(isGameOver$ | async)">
+  <p *ngIf="!(isGameOver$ | async)" data-testid="playerTurnMsg">
     Turn for player: {{ currentPlayer$ | async }}
   </p>
-  <p *ngIf="winner$ | async as winner">Winner is {{ winner }}!</p>
-  <p *ngIf="isTied$ | async">It is a tie!</p>
+  <p *ngIf="winner$ | async as winner" data-testid="winnerMsg">Winner is {{ winner }}!</p>
+  <p *ngIf="isTied$ | async" data-testid="tieMsg">It is a tie!</p>
 </div>
 
 <div class="mt-4">
@@ -17,6 +17,7 @@
   <button
     *ngIf="isGameOver$ | async"
     class="btn btn-primary"
+    data-testid="restartBtn"
     (click)="onRestart()"
   >
     Restart

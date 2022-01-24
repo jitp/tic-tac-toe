@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
 } from '@angular/core';
 import { Square } from '@modules/board/models';
@@ -14,16 +13,12 @@ import { Square } from '@modules/board/models';
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent {
   @Input()
   squares: Square[][] = [];
 
   @Output()
   square = new EventEmitter<Square>();
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   onSquareClick($event: Square) {
     this.square.emit($event);
